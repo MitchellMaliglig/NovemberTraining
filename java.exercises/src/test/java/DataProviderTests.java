@@ -30,10 +30,6 @@ public class DataProviderTests {
 		
 		Assert.assertEquals(actualState.Name, expectedState, "state should be returned.");
 	}
-
-	private State getState(LocationObjectMother mother) {	
-		return mother.State;
-	}
 	
 	@Test
 	public void canGetStateNameCalifornia() {
@@ -60,5 +56,9 @@ public class DataProviderTests {
 		var actualState = getState(LocationObjectMothers.LosAngeles());
 		
 		Assert.assertEquals(actualState.Name, expectedState, "California should be returned.");
+	}
+	
+	private State getState(LocationObjectMother mother) {	
+		return mother.State;
 	}
 }
