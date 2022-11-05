@@ -1,3 +1,4 @@
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -32,5 +33,32 @@ public class DataProviderTests {
 
 	private State getState(LocationObjectMother mother) {	
 		return mother.State;
+	}
+	
+	@Test
+	public void canGetStateNameCalifornia() {
+		var expectedState = "California";
+		
+		var actualState = States.California.Name;
+		
+		Assert.assertEquals(actualState, expectedState, "California should be returned.");
+	}
+	
+	@Test
+	public void canGetCaliforniaAbbreviation() {
+		var expectedAbbreviation = "CA";
+		
+		var actualAbbreviation = States.California.Abbreviation;
+		
+		Assert.assertEquals(actualAbbreviation, expectedAbbreviation, "CA should be returned.");
+	}
+	
+	@Test
+	public void canGetStateNameCaliforniaFromLocationObjectMother() {
+		var expectedState = "California";
+		
+		var actualState = getState(LocationObjectMothers.LosAngeles());
+		
+		Assert.assertEquals(actualState.Name, expectedState, "California should be returned.");
 	}
 }

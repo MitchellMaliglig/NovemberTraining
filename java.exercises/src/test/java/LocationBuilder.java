@@ -1,3 +1,4 @@
+
 public class LocationBuilder {
 	private LocationObjectMother mother;
 
