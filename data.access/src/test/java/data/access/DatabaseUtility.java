@@ -43,8 +43,24 @@ public class DatabaseUtility implements DatabaseAccessor {
 
 	@Override
 	public String ExecuteSingleCell(String sql) {
-		// TODO Auto-generated method stub
-		return null;
+		String columnName;
+		String value = null;
+
+		try (Connection connection = DriverManager.getConnection(sakila, username, password);
+				Statement statement = connection.createStatement();) {
+
+			columnName = getColumnName(sql);
+
+			ResultSet rs = statement.executeQuery(sql);
+
+			if (rs.next()) {
+				value = rs.getString(columnName);
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		
+		return value;
 	}
 
 	@Override

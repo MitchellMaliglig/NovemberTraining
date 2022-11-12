@@ -28,7 +28,11 @@ public class JdbcTests {
 	
 	@Test
 	public void HighestPaymentAmount() {
+		query = "SELECT MAX(amount) FROM Payment;";
 		
+		var result = accessor.ExecuteSingleCell(query);
+		
+		print(result);
 	}
 	
 	@Test
@@ -45,5 +49,9 @@ public class JdbcTests {
 		for (int i = 0; i < values.length; i++) {
 			System.out.println(values[i]);
 		}
+	}
+	
+	private void print(String value) {
+		System.out.println(value);
 	}
 }
