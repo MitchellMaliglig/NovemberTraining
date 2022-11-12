@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -16,7 +17,7 @@ public class DatabaseUtility implements DatabaseAccessor {
 
 	@Override
 	public String[] ExecuteSingleColumn(String sql) {
-		String columnName;
+		String[] columnName = null;
 		String columnValue;
 		
 		String[] columnValuesArray = null;
@@ -25,15 +26,27 @@ public class DatabaseUtility implements DatabaseAccessor {
 		try (Connection connection = DriverManager.getConnection(sakila, username, password);
 				Statement statement = connection.createStatement();) {
 
-			columnName = getColumnName(sql);
+			if (isStoredProcedure(sql)) {
+				var procedure = connection.prepareCall(sql);
+				ResultSet rs = procedure.executeQuery();
+				columnName = getColumns(rs);
+				procedure.registerOutParameter(1, java.sql.Types.INTEGER);
+				
+				while (rs.next()) {
+					String value = rs.getString(columnName[0]);
+			        columnValuesArrayList.add(value);
+			        }
+			} else {
+				ResultSet rs = statement.executeQuery(sql);
+				columnName = getColumns(rs);
 
-			ResultSet rs = statement.executeQuery(sql);
-
-			while (rs.next()) {
-				columnValue = rs.getString(columnName);
-				columnValuesArrayList.add(columnValue);
+				while (rs.next()) {
+					columnValue = rs.getString(columnName[0]);
+					columnValuesArrayList.add(columnValue);
+				}
 			}
 			columnValuesArray = transferValues(columnValuesArrayList);
+			
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
@@ -43,24 +56,8 @@ public class DatabaseUtility implements DatabaseAccessor {
 
 	@Override
 	public String ExecuteSingleCell(String sql) {
-		String columnName;
-		String value = null;
-
-		try (Connection connection = DriverManager.getConnection(sakila, username, password);
-				Statement statement = connection.createStatement();) {
-
-			columnName = getColumnName(sql);
-
-			ResultSet rs = statement.executeQuery(sql);
-
-			if (rs.next()) {
-				value = rs.getString(columnName);
-			}
-		} catch (SQLException e) {
-			System.out.println(e);
-		}
-		
-		return value;
+		String value[] = ExecuteSingleColumn(sql);
+		return value[0];
 	}
 
 	@Override
@@ -76,17 +73,25 @@ public class DatabaseUtility implements DatabaseAccessor {
 	            System.out.println(e);
 			}
 	}
-
-	private String getColumnName(String sql) {
-		StringTokenizer st = new StringTokenizer(sql, " ", false);
-		String columnName = st.nextToken();
-
-		while (!lastSixChars(columnName).equals("SELECT")) {
-			columnName = st.nextToken();
+	
+	private String[] getColumns(ResultSet rs) {
+		String[] columns = null;
+		int columnCount;
+		
+		ResultSetMetaData rsMetaData;
+		try {
+			rsMetaData = rs.getMetaData();
+			columnCount = rsMetaData.getColumnCount();
+			columns = new String[columnCount];
+			
+			for(int i = 1; i <= columnCount; i++) {
+				columns[i - 1] = rsMetaData.getColumnName(i);
+				}
+		} catch (SQLException e) {
+			System.out.println(e);
 		}
-		columnName = st.nextToken();
-
-		return columnName;
+		
+		return columns;
 	}
 
 	private String lastSixChars(String str) {
@@ -103,5 +108,17 @@ public class DatabaseUtility implements DatabaseAccessor {
 		}
 		
 		return array;
+	}
+	
+	private boolean isStoredProcedure(String sql) {
+		StringTokenizer st = new StringTokenizer(sql, " ", false);
+		String str = st.nextToken(); 
+		boolean storedProcedure = false;
+
+		if (str.equalsIgnoreCase("CALL")) {
+			storedProcedure = true;
+		}
+
+		return storedProcedure;
 	}
 }
