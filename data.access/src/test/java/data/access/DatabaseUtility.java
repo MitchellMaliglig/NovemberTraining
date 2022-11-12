@@ -93,12 +93,6 @@ public class DatabaseUtility implements DatabaseAccessor {
 		
 		return columns;
 	}
-
-	private String lastSixChars(String str) {
-		String substring = str.length() > 6 ? str.substring(str.length() - 6) : str;
-
-		return substring;
-	}
 	
 	private String[] transferValues(ArrayList<String> arrayList) {
 		String[] array = new String[arrayList.size()];
