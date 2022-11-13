@@ -2,7 +2,6 @@ package data.access;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -62,8 +61,55 @@ public class DatabaseUtility implements DatabaseAccessor {
 
 	@Override
 	public DataRow[] Execute(String sql) {
-		// TODO Auto-generated method stub
-		return null;
+		Record[] recordsArray = null;
+		
+		String[] columns = null;
+		String columnValue;
+		
+		try (Connection connection = DriverManager.getConnection(sakila, username, password);
+				Statement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
+
+			if (isStoredProcedure(sql)) {
+				var procedure = connection.prepareCall(sql);
+				ResultSet rs = procedure.executeQuery();
+				recordsArray = new Record[getRowCount(rs)];
+				
+				columns = getColumns(rs);
+				int columnCount = columns.length;
+				int recordCount = 0;
+
+				procedure.registerOutParameter(1, java.sql.Types.INTEGER);
+				
+				while (rs.next()) {
+					recordsArray[recordCount] = new Record(columnCount);
+					for (int i = 0; i < columns.length; i++) {
+						columnValue = rs.getString(columns[i]);
+						recordsArray[recordCount].addRecord(columnValue, i);
+					}
+					recordCount++;
+			        }
+			} else {
+				ResultSet rs = statement.executeQuery(sql);
+				recordsArray = new Record[getRowCount(rs)];
+				
+				columns = getColumns(rs);
+				int columnCount = columns.length;
+				int recordCount = 0;
+
+				while (rs.next()) {
+					recordsArray[recordCount] = new Record(columnCount);
+					for (int i = 0; i < columns.length; i++) {
+						columnValue = rs.getString(columns[i]);
+						recordsArray[recordCount].addRecord(columnValue, i);
+					}
+					recordCount++;
+				}	
+			}
+			
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return recordsArray;
 	}
 	
 	public void testConnection() {
@@ -114,5 +160,19 @@ public class DatabaseUtility implements DatabaseAccessor {
 		}
 
 		return storedProcedure;
+	}
+	
+	private int getRowCount(ResultSet rs) {
+		int rowCount = 0;
+		
+		try {
+			rs.last();
+			rowCount = rs.getRow();
+			rs.absolute(0);
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		
+		return rowCount;
 	}
 }

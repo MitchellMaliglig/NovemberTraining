@@ -1,11 +1,5 @@
 package data.access;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -25,9 +19,9 @@ public class JdbcTests {
 	
 	@Test
 	public void TenCitiesDesc() {
-		query = "(SELECT city FROM City LIMIT 10) ORDER BY city DESC";
+		query = "(SELECT * FROM City LIMIT 10) ORDER BY city DESC";
 		
-		var result = accessor.ExecuteSingleColumn(query);
+		var result = accessor.Execute(query);
 		
 		print(result);
 	}
@@ -71,5 +65,19 @@ public class JdbcTests {
 	
 	private void print(String value) {
 		System.out.println(value);
+	}
+	
+	private void print(DataRow[] records) {
+		int columnCount = records[0].GetColumns().length;
+		String[] values = null;
+		
+		for (int i = 0; i < records.length; i++) {
+			values = records[i].GetColumns();
+			
+			for (int j = 0; j < columnCount; j++) {
+				System.out.print(values[j] + " ");
+			}
+			System.out.println();
+		}
 	}
 }
