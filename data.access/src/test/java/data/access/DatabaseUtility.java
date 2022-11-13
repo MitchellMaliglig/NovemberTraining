@@ -62,7 +62,7 @@ public class DatabaseUtility implements DatabaseAccessor {
 	@Override
 	public DataRow[] Execute(String sql) {
 		Record[] recordsArray = null;
-		
+
 		String[] columns = null;
 		String columnValue;
 		
