@@ -1,0 +1,104 @@
+--Ampeg Manual Test Project--
+https://ampeg.com/
+
+1. You decide what should be priority (to test) in the webapp.
+2. 6 manual test cases total.
+3. Ensure to include what 'should' be included in a manual test (title, summary, etc).
+4. Ensure that 5 tests consist of navigating to more than one page.
+5. Ensure that 2 tests consist of navigating to 3 or more pages.
+
+1:
+
+Title: Find Contact Info
+
+Summary: The user will navigate the website and discover the company's contact info.
+
+Pre-conditions: Start at the home page.
+
+Traceability: User is able to get contact info if needed.
+
+Steps: Be at the home page and click on "Support" at the top right. Navigate to the bottom and click on "Contact Us".
+
+Expected result: User should be on a page listed with the company's contact info.
+
+2:
+
+Title: Create account
+
+Summary: The user will make an account if they dont have one.
+
+Pre-conditions: The user doesn't have an account or wants to make another one and isn't logged in.
+
+Traceability: User is able to make an account.
+
+Steps: Start on the home page. Click on the icon at the top right that looks like a person. User should be able to enter
+	info into a series of fields. Once done, user clicks on "create account". The next page should take the user to 
+	their profile page.
+
+Expected result: The user is able to make an account and will automatically be signed on, as well as be on their profile 
+	page.
+
+3:
+
+Title: Browse artist
+
+Summary: User can browse artists and view them as they like.
+
+Pre-conditions: Be at the home page.
+
+Traceability: User can browse artists.
+
+Steps: Start at the home page. Click on "artists" at the top right. User can click on a featured artist, or an artist
+	listed in "artists roster". Either should take the user to a page on the artist. User can then view the artist's 
+	gear, and click on the link to view said gear.
+
+Expected result: User is able to browse various artists as well as their gear.
+
+4:
+
+Title: Job alert sign up
+
+Summary: User is able to sign up for job alerts to get notified of new positions.
+
+Pre-conditions: Currently not signed up for job alerts.
+
+Traceability: User can sign up for job alerts.
+
+Steps: Start at the home page. Click "jobs" at the bottom bar of the page under "company". Click on the email icon near
+	the text that says "sign up for job alert emails". User will then enter the appropriate info in the fields and 
+	upload their resume. User should be taken to a success page, telling them that they are now in the system.
+
+Expected result: User is successfuly signed up for job alerts, and is able to receive emails of such opportunities.
+
+5:
+
+Title: Find product manual
+
+Summary: User is able to find the appropriate manual based a given product.
+
+Pre-conditions: Start at home page.
+
+Traceability: User is able to find the appropriate manual that they need for their product.
+
+Steps: Start at the home page. Click on "products" at the top bar. Click on the appropriate product type. Click on "learn 
+	more" button for the appropriate product. Click on the "manuals" button at the bottom of the page. The user 
+	can then download the appropriate manual that they needed, some of which may be available in multiple languages.
+
+Expected result: User is able to find and download the appropriate manual for their product, which may or may not be offered
+	in multiple languages.
+
+6:
+
+Title: Subscribe to newsletter
+
+Summary: User is able to subscribe to the company's newsletter and receieve news on the company's products and services.
+
+Pre-conditions: User is not currently signed up for the newsletter.
+
+Traceability: User can sign up for the newsletter and receive news.
+
+Steps: Start at the home page. Click on "shop" at the top bar. Click on "my account" underneath "customer service".
+	Click "edit" underneath "newsletters". Select the desired newsletter(s), then click "save". User will be taken
+	back to the account page with a message at the top stating that the subscription has now been saved.
+
+Expected result: User is now signed up for the newsletter, and can receive news.
