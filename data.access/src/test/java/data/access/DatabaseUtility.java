@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 public class DatabaseUtility implements DatabaseAccessor {
 	private String connectionString;
@@ -22,41 +21,23 @@ public class DatabaseUtility implements DatabaseAccessor {
 	
 	@Override
 	public String[] ExecuteSingleColumn(String sql, boolean isStoredProcedure) {
-		String[] columnName = null;
-		String columnValue;
+		String[] columnName = null;	
+		String[] valuesArray = null;
 		
-		String[] columnValuesArray = null;
-		ArrayList<String> columnValuesArrayList = new ArrayList<String>();
+		ResultSet rs = null;
 
 		try (Connection connection = DriverManager.getConnection(connectionString, username, password);
 				Statement statement = connection.createStatement();) {
 
-			if (isStoredProcedure) {
-				var procedure = connection.prepareCall(sql);
-				ResultSet rs = procedure.executeQuery();
-				columnName = getColumns(rs);
-				procedure.registerOutParameter(1, java.sql.Types.INTEGER);
-				
-				while (rs.next()) {
-					String value = rs.getString(columnName[0]);
-			        columnValuesArrayList.add(value);
-			        }
-			} else {
-				ResultSet rs = statement.executeQuery(sql);
-				columnName = getColumns(rs);
-
-				while (rs.next()) {
-					columnValue = rs.getString(columnName[0]);
-					columnValuesArrayList.add(columnValue);
-				}
-			}
-			columnValuesArray = transferValues(columnValuesArrayList);
+			rs = prepareResultSet(rs, connection, statement, sql, isStoredProcedure);			
+			columnName = getColumns(rs);
+			valuesArray = getValuesArray(rs, columnName[0]);
 			
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
 		
-		return columnValuesArray;
+		return valuesArray;
 	}
 
 	@Override
@@ -67,50 +48,17 @@ public class DatabaseUtility implements DatabaseAccessor {
 
 	@Override
 	public DataRow[] Execute(String sql, boolean isStoredProcedure) {
-		Record[] recordsArray = null;
-
 		String[] columns = null;
-		String columnValue;
+		Record[] recordsArray = null;
+		
+		ResultSet rs = null;
 		
 		try (Connection connection = DriverManager.getConnection(connectionString, username, password);
 				Statement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
-
-			if (isStoredProcedure) {
-				var procedure = connection.prepareCall(sql);
-				ResultSet rs = procedure.executeQuery();
-				recordsArray = new Record[getRowCount(rs)];
-				
-				columns = getColumns(rs);
-				int columnCount = columns.length;
-				int recordCount = 0;
-
-				procedure.registerOutParameter(1, java.sql.Types.INTEGER);
-				
-				while (rs.next()) {
-					recordsArray[recordCount] = new Record(columnCount);
-					for (int i = 0; i < columns.length; i++) {
-						columnValue = rs.getString(columns[i]);
-						recordsArray[recordCount].addRecord(columnValue, i);
-					}
-					recordCount++;
-			        }
-			} else {
-				ResultSet rs = statement.executeQuery(sql);
-				recordsArray = new Record[getRowCount(rs)];
-				
-				columns = getColumns(rs);
-				int columnCount = columns.length;
-				int recordCount = 0;
-
-				while (rs.next()) {
-					recordsArray[recordCount] = new Record(columnCount);
-					for (int i = 0; i < columns.length; i++) {
-						columnValue = rs.getString(columns[i]);
-						recordsArray[recordCount].addRecord(columnValue, i);
-					}
-					recordCount++;
-				}	
-			}
+			
+			rs = prepareResultSet(rs, connection, statement, sql, isStoredProcedure);	
+			columns = getColumns(rs);
+			recordsArray = getRecordsArray(rs, columns, columns.length);
 			
 		} catch (SQLException e) {
 			System.out.println(e);
@@ -124,6 +72,21 @@ public class DatabaseUtility implements DatabaseAccessor {
 			} catch (SQLException e) {
 	            System.out.println(e);
 			}
+	}
+	
+	private ResultSet prepareResultSet(ResultSet rs, Connection con, Statement stmt, String sql, boolean isStoredProcedure) {
+		try {
+			if (isStoredProcedure) {
+				var procedure = con.prepareCall(sql);
+				rs = procedure.executeQuery();
+				procedure.registerOutParameter(1, java.sql.Types.INTEGER);
+			} else {
+				rs = stmt.executeQuery(sql);
+			}
+		} catch(SQLException e) {
+			System.out.println(e);
+		}
+		return rs;
 	}
 	
 	private String[] getColumns(ResultSet rs) {
@@ -146,6 +109,24 @@ public class DatabaseUtility implements DatabaseAccessor {
 		return columns;
 	}
 	
+	private String[] getValuesArray(ResultSet rs, String columnName) {
+		String columnValue;
+		String[] columnValuesArray;
+		ArrayList<String> columnValuesArrayList = new ArrayList<String>();
+		
+		try {
+			while (rs.next()) {
+				columnValue = rs.getString(columnName);
+				columnValuesArrayList.add(columnValue);
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		columnValuesArray = transferValues(columnValuesArrayList);
+		
+		return columnValuesArray;
+	}
+	
 	private String[] transferValues(ArrayList<String> arrayList) {
 		String[] array = new String[arrayList.size()];
 		
@@ -156,17 +137,36 @@ public class DatabaseUtility implements DatabaseAccessor {
 		return array;
 	}
 	
-	private int getRowCount(ResultSet rs) {
-		int rowCount = 0;
+	private Record[] getRecordsArray(ResultSet rs, String[] columns, int columnCount) {
+		Record[] recordsArray = null;
+		ArrayList<Record> recordsArrayList = new ArrayList<Record>(); 
+		String columnValue;
 		
 		try {
-			rs.last();
-			rowCount = rs.getRow();
-			rs.absolute(0);
+			while (rs.next()) {
+				Record record = new Record(columnCount);
+				
+				for (int i = 0; i < columns.length; i++) {
+					columnValue = rs.getString(columns[i]);
+					record.addRecord(columnValue, i);
+				}
+				recordsArrayList.add(record);
+			}
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
+		recordsArray = transferRecords(recordsArrayList);
 		
-		return rowCount;
+		return recordsArray;
+	}
+	
+	private Record[] transferRecords(ArrayList<Record> arrayList) {
+		Record[] array = new Record[arrayList.size()];
+		
+		for(int i = 0; i < arrayList.size(); i++) {
+			array[i] = arrayList.get(i);
+		}
+		
+		return array;
 	}
 }
