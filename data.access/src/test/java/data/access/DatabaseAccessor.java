@@ -1,9 +1,9 @@
 package data.access;
 
 public interface DatabaseAccessor {
-	String[] ExecuteSingleColumn(String sql);
+	String[] ExecuteSingleColumn(String sql, boolean isStoredProcedure);
 	
-	String ExecuteSingleCell(String sql);
+	String ExecuteSingleCell(String sql, boolean isStoredProcedure);
 	
-	DataRow[] Execute(String sql);
+	DataRow[] Execute(String sql, boolean isStoredProcedure);
 }

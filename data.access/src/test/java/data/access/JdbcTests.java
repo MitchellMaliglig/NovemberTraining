@@ -24,7 +24,7 @@ public class JdbcTests {
 	public void TenCitiesDesc() {
 		query = "(SELECT * FROM City LIMIT 10) ORDER BY city DESC";
 		
-		var result = accessor.Execute(query);
+		var result = accessor.Execute(query, false);
 		
 		print(result);
 	}
@@ -33,7 +33,7 @@ public class JdbcTests {
 	public void HighestPaymentAmount() {
 		query = "SELECT MAX(amount) FROM Payment;";
 		
-		var result = accessor.ExecuteSingleCell(query);
+		var result = accessor.ExecuteSingleCell(query, false);
 		
 		print(result);
 	}
@@ -42,7 +42,7 @@ public class JdbcTests {
 	public void UseViewGetFilmInfo() {
 		query = "SELECT actor_info.film_info FROM actor_info WHERE first_name = 'Bob' AND last_name = 'Fawcett'";
 		
-		var result = accessor.ExecuteSingleCell(query);
+		var result = accessor.ExecuteSingleCell(query, false);
 		
 		print(result);
 	}
@@ -51,11 +51,11 @@ public class JdbcTests {
 	public void UseStoredProcedureGetInventoryIds() {
 		query = "SELECT film_id FROM Film WHERE title = 'Alien Center'";
 		
-		var filmId = accessor.ExecuteSingleCell(query);
+		var filmId = accessor.ExecuteSingleCell(query, false);
 		
 		query = "CALL film_in_stock(" + filmId + ", 2 , ?)";
 		
-		var result = accessor.ExecuteSingleColumn(query);
+		var result = accessor.ExecuteSingleColumn(query, true);
 		
 		print(result);
 	}

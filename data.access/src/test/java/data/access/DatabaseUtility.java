@@ -21,7 +21,7 @@ public class DatabaseUtility implements DatabaseAccessor {
 	}
 	
 	@Override
-	public String[] ExecuteSingleColumn(String sql) {
+	public String[] ExecuteSingleColumn(String sql, boolean isStoredProcedure) {
 		String[] columnName = null;
 		String columnValue;
 		
@@ -31,7 +31,7 @@ public class DatabaseUtility implements DatabaseAccessor {
 		try (Connection connection = DriverManager.getConnection(connectionString, username, password);
 				Statement statement = connection.createStatement();) {
 
-			if (isStoredProcedure(sql)) {
+			if (isStoredProcedure) {
 				var procedure = connection.prepareCall(sql);
 				ResultSet rs = procedure.executeQuery();
 				columnName = getColumns(rs);
@@ -60,13 +60,13 @@ public class DatabaseUtility implements DatabaseAccessor {
 	}
 
 	@Override
-	public String ExecuteSingleCell(String sql) {
-		String value[] = ExecuteSingleColumn(sql);
+	public String ExecuteSingleCell(String sql, boolean isStoredProcedure) {
+		String value[] = ExecuteSingleColumn(sql, isStoredProcedure);
 		return value[0];
 	}
 
 	@Override
-	public DataRow[] Execute(String sql) {
+	public DataRow[] Execute(String sql, boolean isStoredProcedure) {
 		Record[] recordsArray = null;
 
 		String[] columns = null;
@@ -75,7 +75,7 @@ public class DatabaseUtility implements DatabaseAccessor {
 		try (Connection connection = DriverManager.getConnection(connectionString, username, password);
 				Statement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
 
-			if (isStoredProcedure(sql)) {
+			if (isStoredProcedure) {
 				var procedure = connection.prepareCall(sql);
 				ResultSet rs = procedure.executeQuery();
 				recordsArray = new Record[getRowCount(rs)];
@@ -154,18 +154,6 @@ public class DatabaseUtility implements DatabaseAccessor {
 		}
 		
 		return array;
-	}
-	
-	private boolean isStoredProcedure(String sql) {
-		StringTokenizer st = new StringTokenizer(sql, " ", false);
-		String str = st.nextToken(); 
-		boolean storedProcedure = false;
-
-		if (str.equalsIgnoreCase("CALL")) {
-			storedProcedure = true;
-		}
-
-		return storedProcedure;
 	}
 	
 	private int getRowCount(ResultSet rs) {
