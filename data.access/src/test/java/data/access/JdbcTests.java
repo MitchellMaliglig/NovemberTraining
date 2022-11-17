@@ -5,11 +5,14 @@ import org.testng.annotations.Test;
 
 public class JdbcTests {
 	private DatabaseUtility accessor;
+	private String connectionString = "jdbc:mysql://localhost:3306/sakila?useSSL=false";
+	private String username = Credentials.username;
+	private String password = Credentials.password;
 	private String query;
 	
 	@BeforeMethod
 	public void Setup() {
-		this.accessor = new DatabaseUtility();
+		this.accessor = new DatabaseUtility(connectionString, username, password);
 	}
 	
 	@Test

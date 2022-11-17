@@ -10,10 +10,16 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class DatabaseUtility implements DatabaseAccessor {
-	private String sakila = "jdbc:mysql://localhost:3306/sakila?useSSL=false";
-	private String username = Credentials.username;
-	private String password = Credentials.password;
+	private String connectionString;
+	private String username;
+	private String password;
 
+	public DatabaseUtility(String connectionString, String username, String password) {
+		this.connectionString = connectionString;
+		this.username = username;
+		this.password = password;
+	}
+	
 	@Override
 	public String[] ExecuteSingleColumn(String sql) {
 		String[] columnName = null;
@@ -22,7 +28,7 @@ public class DatabaseUtility implements DatabaseAccessor {
 		String[] columnValuesArray = null;
 		ArrayList<String> columnValuesArrayList = new ArrayList<String>();
 
-		try (Connection connection = DriverManager.getConnection(sakila, username, password);
+		try (Connection connection = DriverManager.getConnection(connectionString, username, password);
 				Statement statement = connection.createStatement();) {
 
 			if (isStoredProcedure(sql)) {
@@ -66,7 +72,7 @@ public class DatabaseUtility implements DatabaseAccessor {
 		String[] columns = null;
 		String columnValue;
 		
-		try (Connection connection = DriverManager.getConnection(sakila, username, password);
+		try (Connection connection = DriverManager.getConnection(connectionString, username, password);
 				Statement statement = connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
 
 			if (isStoredProcedure(sql)) {
@@ -114,7 +120,7 @@ public class DatabaseUtility implements DatabaseAccessor {
 	
 	public void testConnection() {
 		try (Connection connection = DriverManager
-				.getConnection(sakila, username, password);){
+				.getConnection(connectionString, username, password);){
 			} catch (SQLException e) {
 	            System.out.println(e);
 			}
