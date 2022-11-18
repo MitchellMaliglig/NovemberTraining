@@ -1,0 +1,13 @@
+1) $("input[id='userName']")
+
+2) $("button[class='btn btn-primary']")
+
+3) $("footer > span")
+
+4) $("ul[id='nav'] > li")
+
+5) $("option[value='4']")
+
+6) document.querySelector('[id="sliderValue"]').getAttribute('value');
+
+7) document.querySelector('[id="userName"]');

@@ -1,0 +1,13 @@
+1) $x("//input[@id = 'userName']")
+
+2) $x("//button")
+
+3) $x("//div[@class='rt-td']//text()[contains(.,'Vega')]")
+
+4) $x("//input[@id='impressiveRadio']/parent::*")
+
+5) $x("//div//input[@id='impressiveRadio']/ancestor::*")
+
+6) $x("//input[@id='impressiveRadio']/parent::*/child::*//text()[contains(.,'Impressive')]")
+
+7) $x("//button//text()[contains(.,'Click')]")
