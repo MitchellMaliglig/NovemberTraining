@@ -13,4 +13,11 @@ public class HomePage extends PageObject {
 		
 		return new ProductDirectoryPage(this.driver);
 	}
+
+	public ArtistsPage clickArtistsLink() {
+		var artistLink = this.driver.findElement(By.cssSelector("a[title='Artists']"));
+		artistLink.click();
+		
+		return new ArtistsPage(this.driver);
+	}
 }

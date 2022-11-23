@@ -13,4 +13,11 @@ public class ProductDirectoryPage extends PageObject {
 		
 		return new ProductCategoryPage(this.driver);
 	}
+
+	public ContactPage clickContactLink() {
+		var contactLink = this.driver.findElement(By.cssSelector("a > img[name='contact']"));
+		contactLink.click();
+		
+		return new ContactPage(this.driver);
+	}
 }
