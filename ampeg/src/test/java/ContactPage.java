@@ -8,9 +8,16 @@ public class ContactPage extends PageObject{
 	}
 
 	public FaqPage clickFaqLink() {
-		var faqLink = this.driver.findElement(By.cssSelector("a[href = '/faq']"));
+		var faqLink = this.driver.findElement(By.cssSelector("a[href $= 'faq']"));
 		faqLink.click();
 		
 		return new FaqPage(this.driver);
+	}
+
+	public ProductManualsPage clickProductManualsLink() {
+		var productManualsLink = this.driver.findElement(By.cssSelector("a[href $= 'manuals/']"));
+		productManualsLink.click();
+		
+		return new ProductManualsPage(this.driver);
 	}
 }

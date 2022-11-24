@@ -32,7 +32,7 @@ public abstract class AmpegTests {
 		System.setProperty("webdriver.chrome.driver", driverPath);
 
 		this.driver = new ChromeDriver();
-		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		this.driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		this.driver.manage().window().maximize();
 		this.driver.navigate().to(url);
 	}
