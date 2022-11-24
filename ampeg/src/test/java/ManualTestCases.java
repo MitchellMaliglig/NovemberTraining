@@ -59,7 +59,7 @@ public class ManualTestCases extends AmpegTests{
 		Assert.assertTrue(pdfContent.contains(expectedContactInfo), "Contact info should be found in the V-4B English Quick Start Guide");
 	}
 	
-	private static  String readPdfContent(String url) throws IOException {	
+	private String readPdfContent(String url) throws IOException {	
 		URL pdfUrl = new URL(url);
 		InputStream in = pdfUrl.openStream();
 		BufferedInputStream bf = new BufferedInputStream(in);
