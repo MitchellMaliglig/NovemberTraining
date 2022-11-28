@@ -14,8 +14,11 @@ public abstract class DriverManager {
 	}
 	
 	protected void setDriver() {
+		var url = "https://www.selenium.dev/";
+		
 		this.driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		this.driver.manage().window().maximize();
+		this.driver.navigate().to(url);
 	}
 	
 	public void quitDriver() {
