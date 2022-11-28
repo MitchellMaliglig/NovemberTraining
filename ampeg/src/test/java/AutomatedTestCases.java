@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
-public class ManualTestCases extends AmpegTests{
+public class AutomatedTestCases extends AmpegTests{
 	@Test
 	public void verifyFaqPageTitle() {
 		var expectedPageTitle = "Frequently Asked Questions (FAQs)";
@@ -33,7 +33,7 @@ public class ManualTestCases extends AmpegTests{
 				.clickArtistsLink()
 				.clickJustinPearsonLink()
 				.clickSvt810eLink()
-				.driver.getCurrentUrl();
+				.getUrl();
 		
 		assertEquals(expectedUrl, url, "The SVT-810E page should be displayed.");
 	}
@@ -52,7 +52,7 @@ public class ManualTestCases extends AmpegTests{
 				.clickProductManualsLink()
 				.clickV4bLink()
 				.clickQuickStartGuideEnglish()
-				.driver.getCurrentUrl();
+				.getUrl();
 		
 		var pdfContent = readPdfContent(pdfUrl);
 		

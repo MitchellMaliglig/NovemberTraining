@@ -6,4 +6,8 @@ public abstract class PageObject {
 	protected PageObject(WebDriver driver) {
 		this.driver = driver;
 	}
+	
+	protected String getUrl() {
+		return driver.getCurrentUrl();
+	}
 }
