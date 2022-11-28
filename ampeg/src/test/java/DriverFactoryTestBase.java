@@ -37,6 +37,6 @@ public class DriverFactoryTestBase {
 	
 	@AfterMethod 
 	public void cleanup(){
-		manager.quitDriver();;
+		manager.quitDriver();
 	}
 }
