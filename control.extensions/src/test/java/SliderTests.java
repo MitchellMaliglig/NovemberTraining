@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import Foundation.TestBase;
 
 public class SliderTests extends TestBase{
-	public Slider slider;
+	private Slider slider;
 	
   @Test
   public void sliderValue80() {

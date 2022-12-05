@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import Foundation.TestBase;
 
 public class RadioButtonTests extends TestBase{
-	public RadioGroup radioGroup;
+	private RadioGroup radioGroup;
 	
   @Test
   public void selectRadioButonYes() {
