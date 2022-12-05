@@ -33,17 +33,13 @@ public class RadioButtonTests extends TestBase{
  
  @Test
  public void selectRadioButtonNo() {
-	 String expectedLabel = "No";
+	 String expectedNullLabel = null;
 	  
 	 RadioButton button = radioGroup.getButton("no");
 	 button.select();
 	 String label = radioGroup.getSelected();
 	  
-	 if (label != null) { 
-		 assertEquals(expectedLabel, label, "The labels should match");
-	 } else {
-		 assertEquals(label, null, "Null should be returned if the button can't be clicked.");
-	 }
+	 assertEquals(expectedNullLabel, label, "The label should be null");
  }
  
  @BeforeMethod
