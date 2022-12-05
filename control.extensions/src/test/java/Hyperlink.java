@@ -14,7 +14,7 @@ public class Hyperlink extends ControlExtension {
 	}
 	
 	public String getResponse() {
-		return mappedElement.findElement(By.xpath("//div//p[@id='linkResponse']")).getText();
+		return mappedElement.findElement(By.xpath("//p[@id='linkResponse']")).getText();
 	}
 
 }
