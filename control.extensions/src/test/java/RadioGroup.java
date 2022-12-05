@@ -1,7 +1,5 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.How;
 
 import ControlExtensions.Angular.ControlExtension;
 
@@ -22,15 +20,15 @@ public class RadioGroup extends ControlExtension{
 			element = mappedElement.findElement(By.cssSelector("[for='noRadio']"));
 		}
 		
-		if (element == null) {
-			System.out.println("null");
-		}
 		return new RadioButton(element);
 	}
 	
 	public String getSelected() {
-		//return radioSelected.getText();
-		return mappedElement.findElement(By.cssSelector("p span")).getText(); 
+		try {
+			return mappedElement.findElement(By.cssSelector("p span")).getText();
+		} catch (Exception e){
+			return null;
+		}
 	}
 
 }
