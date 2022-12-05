@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import Foundation.TestBase;
 
-public class ControlExtensionProjectTests extends TestBase{
+public class RadioButtonTests extends TestBase{
 	public RadioGroup radioGroup;
 	
   @Test
