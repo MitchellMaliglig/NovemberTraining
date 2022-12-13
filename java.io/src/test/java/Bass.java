@@ -33,5 +33,10 @@ public class Bass {
 	public void setStringCount(int stringCount) {
 		this.stringCount = stringCount;
 	}
+	
+	@Override
+	public String toString() {
+		return getMake() + " " + getModel() + " " + getStringCount();
+	}
 
 }
