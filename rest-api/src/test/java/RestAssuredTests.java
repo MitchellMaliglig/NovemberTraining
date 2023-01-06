@@ -2,6 +2,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 import org.json.simple.JSONObject;
 import org.testng.annotations.BeforeMethod;
@@ -10,10 +11,11 @@ import org.testng.annotations.Test;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
 import static io.restassured.RestAssured.given;
 
-public class RestAssuredTests {
+public class RestAssuredTests<JSONSuccessResponse> {
 
 	@Test
 	public void verifyJanetEmail() {
@@ -126,6 +128,38 @@ public class RestAssuredTests {
 		
 		assertTrue(nameBefore != nameAfter, "Invalid name change");
 		assertTrue(((String)updatedBefore).compareTo(updatedAfter) < 0, "Invalid timestamp change");
+	}
+	
+	@Test
+	public void deserializeSingleUser() {
+		var expectedId = "2";
+		var expectedEmail = "janet.weaver@reqres.in";
+		var expectedFirstName = "Janet";
+		var expectedLastName = "Weaver";
+		var expectedAvatar = "https://reqres.in/img/faces/2-image.jpg";
+		
+		RequestSpecification httpRequest = RestAssured.given();
+
+		Response response = httpRequest.get("https://reqres.in/api/users/2");
+		JsonPath jsonPathEvaluator = response.jsonPath();
+		LinkedHashMap<String, String> userData = jsonPathEvaluator.get("data");
+		
+		Data data = new Data(String.valueOf(userData.get("id")),
+				userData.get("email"),
+				userData.get("first_name"),
+				userData.get("last_name"),
+				userData.get("avatar"));
+		
+		assertEquals(data.getId(), expectedId, "Invalid id");
+		assertEquals(data.getEmail(), expectedEmail, "Invalid email");
+		assertEquals(data.getFirstName(), expectedFirstName, "Invalid first name");
+		assertEquals(data.getLastName(), expectedLastName, "Invalid last name");
+		assertEquals(data.getAvatar(), expectedAvatar, "Invalid avatar");
+	}
+	
+	@Test
+	public void deserializeMultiUsers() {
+		
 	}
 	
 	@BeforeMethod
