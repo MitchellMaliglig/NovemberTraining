@@ -55,6 +55,8 @@ public class RestAssuredTests {
 
 	@Test
 	public void verifyDeleteResponseCode() {
+		// code 204 indicates that the server has successfully fulfilled the request and that there 
+		// is no content to send in the response payload body.
 		var expectedCode = 204;
 
 		RequestSpecification httpRequest = RestAssured.given();
