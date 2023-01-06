@@ -1,4 +1,5 @@
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.util.LinkedHashMap;
 
@@ -10,6 +11,7 @@ import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import static io.restassured.RestAssured.given;
 
 public class RestAssuredTests {
 
@@ -65,6 +67,35 @@ public class RestAssuredTests {
 		int actualCode = response.getStatusCode();
 
 		assertEquals(actualCode, expectedCode, "Invalid code");
+	}
+
+	@Test
+	public void morpheusPatch() {
+		String requestBody = "{\n" +
+				"  \"name\": \"Morpheus2\" \n}";
+
+		RequestSpecification request = RestAssured.given();
+
+		Response responseBefore = request.patch("/api/users/2");
+		JsonPath jsonPathEvaluator = responseBefore.jsonPath();
+		
+		var nameBefore = jsonPathEvaluator.get("name");
+		var updatedBefore = jsonPathEvaluator.get("updatedAt");
+
+		Response responseAfter = given()
+				.header("Content-type", "application/json")
+				.and()
+				.body(requestBody)
+				.when()
+				.patch("https://reqres.in/api/users/2")
+				.then()
+				.extract().response();
+
+		var nameAfter = responseAfter.jsonPath().getString("name");
+		var updatedAfter = responseAfter.jsonPath().getString("updatedAt");
+		
+		assertTrue(nameBefore != nameAfter, "Invalid name change");
+		assertTrue(((String)updatedBefore).compareTo(updatedAfter) < 0, "Invalid timestamp change");
 	}
 
 	@BeforeMethod
