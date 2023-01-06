@@ -1,8 +1,8 @@
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Set;
 
 import org.json.simple.JSONObject;
 import org.testng.annotations.BeforeMethod;
@@ -11,7 +11,6 @@ import org.testng.annotations.Test;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
 import static io.restassured.RestAssured.given;
 
@@ -159,7 +158,34 @@ public class RestAssuredTests<JSONSuccessResponse> {
 	
 	@Test
 	public void deserializeMultiUsers() {
+		var expectedId = "9";
+		var expectedEmail = "tobias.funke@reqres.in";
+		var expectedFirstName = "Tobias";
+		var expectedLastName = "Funke";
+		var expectedAvatar = "https://reqres.in/img/faces/9-image.jpg";
 		
+		RequestSpecification httpRequest = RestAssured.given();
+
+		Response response = httpRequest.get("https://reqres.in/api/users?page=2");
+		JsonPath jsonPathEvaluator = response.jsonPath();
+		ArrayList<LinkedHashMap<String, String>> userData = jsonPathEvaluator.get("data");
+		ArrayList<Data> dataArrayList = new ArrayList<Data>();
+		
+		for (int i = 0; i < userData.size(); i++) {
+			LinkedHashMap<String, String> dataMap = userData.get(i);
+			Data data = new Data(String.valueOf(dataMap.get("id")),
+					dataMap.get("email"),
+					dataMap.get("first_name"),
+					dataMap.get("last_name"),
+					dataMap.get("avatar"));
+			dataArrayList.add(data);
+		}
+		
+		assertEquals(dataArrayList.get(2).getId(), expectedId, "Invalid id");
+		assertEquals(dataArrayList.get(2).getEmail(), expectedEmail, "Invalid email");
+		assertEquals(dataArrayList.get(2).getFirstName(), expectedFirstName, "Invalid first name");
+		assertEquals(dataArrayList.get(2).getLastName(), expectedLastName, "Invalid last name");
+		assertEquals(dataArrayList.get(2).getAvatar(), expectedAvatar, "Invalid avatar");
 	}
 	
 	@BeforeMethod
