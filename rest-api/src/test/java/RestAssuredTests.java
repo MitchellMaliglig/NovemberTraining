@@ -98,6 +98,36 @@ public class RestAssuredTests {
 		assertTrue(((String)updatedBefore).compareTo(updatedAfter) < 0, "Invalid timestamp change");
 	}
 
+	@Test
+	public void morpheusPut() {
+		String requestBody = "{\n" +
+	            "  \"name\": \"Morpehus2\",\n" +
+	            "  \"job\": \"zion resident\" \n}";
+		
+		RequestSpecification request = RestAssured.given();
+
+		Response responseBefore = request.patch("/api/users/2");
+		JsonPath jsonPathEvaluator = responseBefore.jsonPath();
+		
+		var nameBefore = jsonPathEvaluator.get("name");
+		var updatedBefore = jsonPathEvaluator.get("updatedAt");
+		
+		Response responseAfter = given()
+                .header("Content-type", "application/json")
+                .and()
+                .body(requestBody)
+                .when()
+                .put("https://reqres.in/api/users/2")
+                .then()
+                .extract().response();
+		
+		var nameAfter = responseAfter.jsonPath().getString("name");
+		var updatedAfter = responseAfter.jsonPath().getString("updatedAt");
+		
+		assertTrue(nameBefore != nameAfter, "Invalid name change");
+		assertTrue(((String)updatedBefore).compareTo(updatedAfter) < 0, "Invalid timestamp change");
+	}
+	
 	@BeforeMethod
 	public void beforeMethod() {
 		RestAssured.baseURI = "https://reqres.in/";
