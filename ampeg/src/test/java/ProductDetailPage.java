@@ -18,4 +18,10 @@ public class ProductDetailPage extends PageObject {
 		
 		return element.getText();
 	}
+	
+	public String getSvt810eTitle() {
+		var element = this.driver.findElement(By.cssSelector("#svt810e > div > div > div > div > div > div > div > div > h2"));
+		
+		return element.getText();
+	}
 }

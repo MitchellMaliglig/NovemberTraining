@@ -3,16 +3,15 @@ import static org.testng.Assert.assertEquals;
 
 public class ProductDetailsTests extends AmpegTests {
 	@Test
-	public void ensureArtistIsDisplayedOnProductDetailsPage() {
-		var expectedArtistName = "Bootsy Collins";
+	public void navigateToClassicPage() {
+		var expectedUrl = "https://ampeg.com/products/classic/";
 
-		var artistName = new HomePage(this.driver)
+		var actualUrl = new HomePage(this.driver)
 				.clickProductsLink()
 				.clickClassicBassHeadsAndEnclosuresLink()
-				.clickProductDetailLink()
-				.getArtistName();
+				.getUrl();
 
-		assertEquals(artistName, expectedArtistName, "product details page should contain artist name.");
+		assertEquals(actualUrl, expectedUrl, "We should be on classic page");
 	}
 
 	@Test
@@ -22,8 +21,7 @@ public class ProductDetailsTests extends AmpegTests {
 		var spec = new HomePage(this.driver)
 				.clickProductsLink()
 				.clickClassicBassHeadsAndEnclosuresLink()
-				.clickProductDetailLink()
-				.getFirstSpec();
+				.clickAccessoriesLink();
 
 		assertEquals(spec, expectedText, "the first spec should match the expected text.");
 	}

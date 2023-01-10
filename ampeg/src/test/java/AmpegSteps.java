@@ -78,4 +78,47 @@ public class AmpegSteps extends AmpegTests{
 		Cleanup();
 	}
 
+	@Given("I click on the artists link")
+	public void i_click_on_the_artists_link() {
+		page = new HomePage(this.driver);
+	    ((HomePage) page).clickArtistsLink();
+	}
+
+	@Given("I click on Justin Pearson")
+	public void i_click_on_justin_pearson() {
+		page = new ArtistsPage(this.driver);
+	    ((ArtistsPage) page).clickJustinPearsonLink();
+	}
+
+	@When("I click on SVT810E link")
+	public void i_click_on_svt810e_link() {
+		page = new JustinPearsonPage(this.driver);
+	    ((JustinPearsonPage) page).clickSvt810eLink();
+	}
+
+	@Then("I should be able to see SVT810E product")
+	public void i_should_be_able_to_see_svt810e_product() {
+		var expectedProduct = "SVT-810E";
+		
+	    page = new ProductDetailPage(this.driver);
+	    var product = ((ProductDetailPage) page).getSvt810eTitle();
+	    
+	    assertEquals(product, expectedProduct, "Product should be SVT-810E");
+	}
+	
+	@When("I click classic bass heads and enclosures")
+	public void i_click_classic_bass_heads_and_enclosures() {
+	    page = new ProductDirectoryPage(this.driver);
+	    ((ProductDirectoryPage) page).clickClassicBassHeadsAndEnclosuresLink();
+	}
+
+	@Then("I should see the classic page")
+	public void i_should_see_the_classic_page() {
+		var expectedUrl = "https://ampeg.com/products/classic/";
+
+		var actualUrl = (page).getUrl();
+
+		assertEquals(actualUrl, expectedUrl, "We should be on classic page");
+		Cleanup();
+	}
 }

@@ -8,7 +8,7 @@ public class JustinPearsonPage extends PageObject{
 	}
 
 	public ProductDetailPage clickSvt810eLink() {
-		var svt810eLink = this.driver.findElement(By.cssSelector("ul > li > a[href$='svt810e']"));
+		var svt810eLink = this.driver.findElement(By.cssSelector("#artist063 > p > a[href]:contains(SVT-810E)"));
 		svt810eLink.click();
 		
 		return new ProductDetailPage(this.driver);

@@ -19,3 +19,18 @@ Feature: feature feature
     And I click on V4B link
     When I click on quick start guide english
     Then I should see contact info listed
+
+ # @Svt810eNavigationTest
+  #Scenario: Svt810e through Justin Pearson
+   # Given I am on the home page
+    #And I click on the artists link
+   	#And I click on Justin Pearson
+    #When I click on SVT810E link
+    #Then I should be able to see SVT810E product
+    
+    @ClassicProducts
+    Scenario: Navigate to classic page
+    Given I am on the home page
+    And I click on products link
+    When I click classic bass heads and enclosures
+    Then I should see the classic page

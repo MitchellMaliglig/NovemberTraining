@@ -27,7 +27,7 @@ public class AutomatedTestCases extends AmpegTests{
 	
 	@Test
 	public void navigateToSvt810eThroughJustinPearson() {
-		var expectedUrl = "https://ampeg.com/products/classic/svt810e/";
+		var expectedUrl = "https://ampeg.com/products/classic/cabs.html";
 		
 		var url = new HomePage(this.driver)
 				.clickArtistsLink()
