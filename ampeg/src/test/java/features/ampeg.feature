@@ -1,7 +1,8 @@
-@tag
-Feature: FAQ Page
-
-  @tag1
+@sometag
+Feature: feature feature
+	feature feature feature
+	
+  @FAQTest
   Scenario: FAQ Page Navigation
     Given I am on the home page
     And I Click on products link
