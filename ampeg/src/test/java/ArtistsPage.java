@@ -7,7 +7,7 @@ public class ArtistsPage extends PageObject{
 	}
 
 	public JustinPearsonPage clickJustinPearsonLink() {
-		var justinPearsonLink = this.driver.findElement(By.cssSelector("[href=#artist063]"));
+		var justinPearsonLink = this.driver.findElement(By.xpath("//a[@href='#artist063']"));
 		justinPearsonLink.click();
 		
 		return new JustinPearsonPage(this.driver);

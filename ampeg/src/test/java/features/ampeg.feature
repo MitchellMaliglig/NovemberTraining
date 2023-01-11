@@ -20,13 +20,14 @@ Feature: feature feature
     When I click on quick start guide english
     Then I should see contact info listed
 
-  # @Svt810eNavigationTest
-  #Scenario: Svt810e through Justin Pearson
-  # Given I am on the home page
-  #And I click on the artists link
-  #And I click on Justin Pearson
-  #When I click on SVT810E link
-  #Then I should be able to see SVT810E product
+  @Svt810eNavigationTest
+  Scenario: Svt810e through Justin Pearson
+    Given I am on the home page
+    And I click on the artists link
+    And I click on Justin Pearson
+    When I click on SVT810E link
+    Then I should be on the classic cabs page
+
   @ClassicProducts
   Scenario: Navigate to classic page
     Given I am on the home page
