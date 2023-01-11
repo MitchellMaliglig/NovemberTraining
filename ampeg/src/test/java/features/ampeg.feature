@@ -28,14 +28,14 @@ Feature: feature feature
     When I click on SVT810E link
     Then I should be on the classic cabs page
 
-  @ClassicProducts
+  @ClassicProductsTest
   Scenario: Navigate to classic page
     Given I am on the home page
     And I click on products link
     When I click classic bass heads and enclosures
     Then I should see the classic page
 
-  @ClassicAccessories
+  @ClassicAccessoriesTest
   Scenario: Navigate to classic accessories
     Given I am on the home page
     And I click on products link
