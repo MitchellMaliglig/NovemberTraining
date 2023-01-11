@@ -10,7 +10,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class AmpegSteps extends AmpegTests{
-	PageObject page;
+	private PageObject page;
 
 	@Given("^I am on the home page$")
 	public void userOnHomePage() throws Throwable {
