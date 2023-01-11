@@ -15,14 +15,22 @@ public class ProductDetailsTests extends AmpegTests {
 	}
 
 	@Test
-	public void ensureThatFirstSpecIsLfDrivers() {
-		var expectedText = "LF Drivers:";
+	public void ensureThatClassicProductsAreDisplayed() {
+		String[] expectedProducts = { 
+				"SVT-CL / SVT-VR Cover",
+				"SVT-810 Cover",
+				"SVT-610HLF Cover",
+				"SVT-410HLF Cover",
+				"SVT-410HE Cover",
+				"SVT-15E Cover"
+		};
 
-		var spec = new HomePage(this.driver)
+		var products = new HomePage(this.driver)
 				.clickProductsLink()
 				.clickClassicBassHeadsAndEnclosuresLink()
-				.clickAccessoriesLink();
+				.clickAccessoriesLink()
+				.getClassicAccessories();
 
-		assertEquals(spec, expectedText, "the first spec should match the expected text.");
+		assertEquals(products, expectedProducts, "Classic accessories should be displayed.");
 	}
 }

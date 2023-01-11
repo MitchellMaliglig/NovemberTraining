@@ -121,4 +121,28 @@ public class AmpegSteps extends AmpegTests{
 		assertEquals(actualUrl, expectedUrl, "We should be on classic page");
 		Cleanup();
 	}
+	
+	@When("I click the accessories link")
+	public void i_click_the_accessories_link() {
+		page = new ProductCategoryPage(this.driver);
+	    ((ProductCategoryPage) page).clickAccessoriesLink();
+	}
+
+	@Then("I should see classic accessories")
+	public void i_should_see_classic_accessories() {
+		String[] expectedAccessories = { 
+				"SVT-CL / SVT-VR Cover",
+				"SVT-810 Cover",
+				"SVT-610HLF Cover",
+				"SVT-410HLF Cover",
+				"SVT-410HE Cover",
+				"SVT-15E Cover"
+		};
+		
+		page = new ProductDetailPage(this.driver);
+		var accessories = ((ProductDetailPage) page).getClassicAccessories();
+		
+		assertEquals(accessories, expectedAccessories, "Classic accessories should be displayed.");
+		Cleanup();
+	}
 }
