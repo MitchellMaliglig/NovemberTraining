@@ -15,7 +15,7 @@ public class ProductCategoryPage extends PageObject {
 	}
 	
 	public ProductDetailPage clickAccessoriesLink() {
-		var accessoriesLink = this.driver.findElement(By.cssSelector("a[href]:contains(Accessories)"));
+		var accessoriesLink = this.driver.findElement(By.xpath("//a[@href=\"/products/classic/accessories.html\"]"));
 		accessoriesLink.click();
 		
 		return new ProductDetailPage(this.driver);
