@@ -1,5 +1,5 @@
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
@@ -9,7 +9,7 @@ import io.appium.java_client.windows.WindowsDriver;
 
 public abstract class WindowsCalculatorAutomation {
 	protected Calculator calculator;
-	private WindowsDriver<WebElement> driver;
+	private WindowsDriver<RemoteWebElement> driver;
 
 	@BeforeTest
 	public void setUp() {
@@ -19,22 +19,22 @@ public abstract class WindowsCalculatorAutomation {
 		this.driver = launch(builder);
 		this.calculator = new Calculator(driver);
 	}
-	
+
 	@AfterTest
 	public void cleanUp() {
 		kill();
 	}
-	
-	public WindowsDriver<WebElement> launch(AppiumServiceBuilder builder) {
+
+	public WindowsDriver<RemoteWebElement> launch(AppiumServiceBuilder builder) {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setCapability("app", "Microsoft.WindowsCalculator_8wekyb3d8bbwe!App");
 		capabilities.setCapability("deviceName", "WindowsPC");
-		
+
 		AppiumDriverLocalService service = AppiumDriverLocalService.buildService(builder);
-		
-		return new WindowsDriver<WebElement>(service, capabilities);
+
+		return new WindowsDriver<RemoteWebElement>(service, capabilities);
 	}
-	
+
 	public void kill() {
 		driver.quit();
 	}
