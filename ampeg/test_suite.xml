@@ -7,6 +7,7 @@
     <test name="dummy string">
         <classes>
             <class name="tests.AutomatedTestCases"></class>
+            <class name="tests.ProductDetailsTests"></class>
         </classes>
     </test>
     
