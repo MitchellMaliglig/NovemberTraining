@@ -1,3 +1,5 @@
+package tests;
+
 import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.AfterMethod;
@@ -6,7 +8,7 @@ import org.testng.annotations.Test;
 import driverFactory.DriverManager;
 import driverFactory.DriverManagerFactory;
 
-public class DriverFactoryTestBase {
+public class DriverFactoryTests {
 	DriverManager manager;
 	
 	@Test
