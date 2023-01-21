@@ -1,3 +1,5 @@
+package pages;
+
 import java.util.ArrayList;
 
 import org.openqa.selenium.By;

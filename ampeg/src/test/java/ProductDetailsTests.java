@@ -1,4 +1,6 @@
 import org.testng.annotations.Test;
+
+import pages.HomePage;
 import static org.testng.Assert.assertEquals;
 
 public class ProductDetailsTests extends AmpegTests {
