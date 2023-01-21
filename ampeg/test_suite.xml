@@ -4,7 +4,7 @@
     <listener class-name = "listeners.ListenersTestNG"></listener>
     </listeners>
 
-    <test name="dummy string">
+    <test name="Listeners Tests">
         <classes>
             <class name="tests.AutomatedTestCases"></class>
             <class name="tests.ProductDetailsTests"></class>
