@@ -49,12 +49,26 @@ public class ListenersTestNG implements ITestListener, IReporter {
 			
 			for (ISuiteResult sr : suiteResults.values()) {
 				ITestContext tc = sr.getTestContext();
-				System.out.println("Passed tests for suite '" + suiteName +
-						"' is:" + tc.getPassedTests().getAllResults().size());
-				System.out.println("Failed tests for suite '" + suiteName +
-						"' is:" + tc.getFailedTests().getAllResults().size());
-				System.out.println("Skipped tests for suite '" + suiteName +
-						"' is:" + tc.getSkippedTests().getAllResults().size());
+				var passed = tc.getPassedTests().getAllResults();
+				var failed = tc.getFailedTests().getAllResults();
+				var skipped = tc.getSkippedTests().getAllResults();
+				
+				System.out.println("Passed tests for suite '" + suiteName + "' is:" + passed.size());
+				for (var test : passed) {
+					System.out.println(test.getName());
+				}
+				System.out.println();
+				
+				System.out.println("Failed tests for suite '" + suiteName + "' is:" + failed.size());
+				for (var test : failed) {
+					System.out.println(test.getName());
+				}
+				System.out.println();
+				
+				System.out.println("Skipped tests for suite '" + suiteName + "' is:" + skipped.size());
+				for (var test : skipped) {
+					System.out.println(test.getName());
+				}
 			}
 		}
 	}
