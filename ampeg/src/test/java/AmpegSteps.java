@@ -9,6 +9,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pages.*;
+import tests.AmpegTests;
+import tests.AutomatedTestCases;
 
 public class AmpegSteps extends AmpegTests{
 	private PageObject page;
