@@ -6,11 +6,14 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.testng.Assert;
+import org.testng.SkipException;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
+@Listeners(ListenersTestNG.class)
 public class AutomatedTestCases extends AmpegTests{
 	@Test
 	public void verifyFaqPageTitle() {
@@ -57,6 +60,21 @@ public class AutomatedTestCases extends AmpegTests{
 		var pdfContent = readPdfContent(pdfUrl);
 		
 		Assert.assertTrue(pdfContent.contains(expectedContactInfo), "Contact info should be found in the V-4B English Quick Start Guide");
+	}
+	
+	@Test
+	public void homePageUrl() {
+		var expectedUrlThatIsActuallyWrong = "incorrect home page url.com";
+		
+		var actualHomePageUrl = new HomePage(this.driver)
+				.getUrl();
+		
+		Assert.assertEquals(actualHomePageUrl, expectedUrlThatIsActuallyWrong, "Test failed as expected");
+	}
+	
+	@Test  
+	public void SkipTest() {
+		throw new SkipException("Skipping The Test Method ");
 	}
 	
 	public static String readPdfContent(String url) throws IOException {	
