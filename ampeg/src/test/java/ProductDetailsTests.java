@@ -3,28 +3,34 @@ import static org.testng.Assert.assertEquals;
 
 public class ProductDetailsTests extends AmpegTests {
 	@Test
-	public void ensureArtistIsDisplayedOnProductDetailsPage() {
-		var expectedArtistName = "Bootsy Collins";
+	public void navigateToClassicPage() {
+		var expectedUrl = "https://ampeg.com/products/classic/";
 
-		var artistName = new HomePage(this.driver)
+		var actualUrl = new HomePage(this.driver)
 				.clickProductsLink()
 				.clickClassicBassHeadsAndEnclosuresLink()
-				.clickProductDetailLink()
-				.getArtistName();
+				.getUrl();
 
-		assertEquals(artistName, expectedArtistName, "product details page should contain artist name.");
+		assertEquals(actualUrl, expectedUrl, "We should be on classic page");
 	}
 
 	@Test
-	public void ensureThatFirstSpecIsLfDrivers() {
-		var expectedText = "LF Drivers:";
+	public void ensureThatClassicProductsAreDisplayed() {
+		String[] expectedProducts = { 
+				"SVT-CL / SVT-VR Cover",
+				"SVT-810 Cover",
+				"SVT-610HLF Cover",
+				"SVT-410HLF Cover",
+				"SVT-410HE Cover",
+				"SVT-15E Cover"
+		};
 
-		var spec = new HomePage(this.driver)
+		var products = new HomePage(this.driver)
 				.clickProductsLink()
 				.clickClassicBassHeadsAndEnclosuresLink()
-				.clickProductDetailLink()
-				.getFirstSpec();
+				.clickAccessoriesLink()
+				.getClassicAccessories();
 
-		assertEquals(spec, expectedText, "the first spec should match the expected text.");
+		assertEquals(products, expectedProducts, "Classic accessories should be displayed.");
 	}
 }

@@ -26,8 +26,8 @@ public abstract class AmpegTests {
 		this.driver.quit();
 	}
 
-	private void launchDriver() {
-		var driverPath = "C:\\Users\\mitch\\Downloads\\chromedriver.exe";
+	protected void launchDriver() {
+		var driverPath = "C:\\Users\\mitch\\Downloads\\chromedriver_win32 (1)\\chromedriver109.exe";
 		var url = "https://www.ampeg.com/";
 		System.setProperty("webdriver.chrome.driver", driverPath);
 
