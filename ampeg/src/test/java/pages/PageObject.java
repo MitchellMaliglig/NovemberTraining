@@ -1,3 +1,5 @@
+package pages;
+
 import org.openqa.selenium.WebDriver;
 
 public abstract class PageObject {
@@ -7,7 +9,7 @@ public abstract class PageObject {
 		this.driver = driver;
 	}
 	
-	protected String getUrl() {
+	public String getUrl() {
 		return driver.getCurrentUrl();
 	}
 }
