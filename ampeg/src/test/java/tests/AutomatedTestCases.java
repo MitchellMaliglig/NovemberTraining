@@ -21,11 +21,11 @@ import org.apache.pdfbox.text.PDFTextStripper;
 
 @Listeners(ListenersTestNG.class)
 public class AutomatedTestCases extends AmpegTests{
-	@Test
+	@Test (priority = 1)
 	public void verifyFaqPageTitle() {
 		var expectedPageTitle = "Frequently Asked Questions (FAQs)";
 
-		var pageTitle = new HomePage(this.driver)
+		var pageTitle = new HomePage(driver.get())
 				.clickProductsLink()
 				.clickContactLink()
 				.clickFaqLink()
@@ -34,11 +34,11 @@ public class AutomatedTestCases extends AmpegTests{
 		assertEquals(expectedPageTitle, pageTitle, "\"Frequently Asked Questions (FAQs)\" should be displayed as the title.");
 	}
 
-	@Test
+	@Test (priority = 0)
 	public void navigateToSvt810eThroughJustinPearson() {
 		var expectedUrl = "https://ampeg.com/products/classic/cabs.html";
 
-		var url = new HomePage(this.driver)
+		var url = new HomePage(driver.get())
 				.clickArtistsLink()
 				.clickJustinPearsonLink()
 				.clickSvt810eLink()
@@ -47,7 +47,7 @@ public class AutomatedTestCases extends AmpegTests{
 		assertEquals(expectedUrl, url, "The SVT-810E page should be displayed.");
 	}
 
-	@Test
+	@Test (priority = 1)
 	public void openV4bEnglishQuickStartGuideAndVerifyThatContactInfoIsFound() throws IOException {
 		var expectedContactInfo = "Yamaha Guitar Group, Inc.\r\n"
 				+ "26580 Agoura Road\r\n"
@@ -55,7 +55,7 @@ public class AutomatedTestCases extends AmpegTests{
 				+ "(818) 575-3600\r\n"
 				+ "https://ampeg.com/";
 
-		var pdfUrl = new HomePage(this.driver)
+		var pdfUrl = new HomePage(driver.get())
 				.clickProductsLink()
 				.clickContactLink()
 				.clickProductManualsLink()
@@ -68,19 +68,18 @@ public class AutomatedTestCases extends AmpegTests{
 		Assert.assertTrue(pdfContent.contains(expectedContactInfo), "Contact info should be found in the V-4B English Quick Start Guide");
 	}
 
-	@Test
-	public void homePageUrl() {
-		var expectedUrlThatIsActuallyWrong = "incorrect home page url.com";
-
-		var actualHomePageUrl = new HomePage(this.driver)
-				.getUrl();
-
-		Assert.assertEquals(actualHomePageUrl, expectedUrlThatIsActuallyWrong, "Test failed as expected");
+	@Test (priority = 2)
+	public void failedTest() {
+		Assert.assertTrue(false);
 	}
 
-	@Test  
-	public void SkipTest() {
+	@Test (priority = 2)
+	public void skipTest() {
 		throw new SkipException("Skipping The Test Method ");
+	}
+	
+	@Test (enabled = false, priority = -1)
+	public void notEnabled() {
 	}
 
 	public static String readPdfContent(String url) throws IOException {	

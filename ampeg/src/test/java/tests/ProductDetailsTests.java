@@ -10,7 +10,7 @@ public class ProductDetailsTests extends AmpegTests {
 	public void navigateToClassicPage() {
 		var expectedUrl = "https://ampeg.com/products/classic/";
 
-		var actualUrl = new HomePage(this.driver)
+		var actualUrl = new HomePage(driver.get())
 				.clickProductsLink()
 				.clickClassicBassHeadsAndEnclosuresLink()
 				.getUrl();
@@ -29,7 +29,7 @@ public class ProductDetailsTests extends AmpegTests {
 				"SVT-15E Cover"
 		};
 
-		var products = new HomePage(this.driver)
+		var products = new HomePage(driver.get())
 				.clickProductsLink()
 				.clickClassicBassHeadsAndEnclosuresLink()
 				.clickAccessoriesLink()
