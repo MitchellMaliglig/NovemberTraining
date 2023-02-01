@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Product Details Suite" parallel = "methods" thread-count = "2">
+
+	<listeners>
+		<listener class-name = "listeners.ListenersTestNG"></listener>
+    </listeners>
+
+    <test name="Product Details Tests">
+        <classes>
+            <class name="tests.ProductDetailsTests"></class>
+        </classes>
+    </test>
+    
+</suite>
