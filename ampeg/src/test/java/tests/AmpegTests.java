@@ -30,7 +30,7 @@ public abstract class AmpegTests {
 		driver.get().quit();
 	}
 
-	protected void launchDriver() {
+	private void launchDriver() {
 		var driverPath = "C:\\Users\\mitch\\Downloads\\chromedriver_win32 (1)\\chromedriver109.exe";
 		System.setProperty("webdriver.chrome.driver", driverPath);
 

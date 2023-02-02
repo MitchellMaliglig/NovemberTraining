@@ -2,22 +2,59 @@
 import static org.testng.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import pages.*;
-import tests.AmpegTests;
+import pages.ArtistsPage;
+import pages.ContactPage;
+import pages.FaqPage;
+import pages.HomePage;
+import pages.JustinPearsonPage;
+import pages.PageObject;
+import pages.ProductCategoryPage;
+import pages.ProductDetailPage;
+import pages.ProductDirectoryPage;
+import pages.ProductManualsPage;
+import pages.V4bPage;
 import tests.AutomatedTestCases;
 
-public class AmpegSteps extends AmpegTests{
+public class AmpegSteps{
 	private PageObject page;
+	private WebDriver driver;
+	private String baseUrl;
+	
+	@Before
+	public void beforeScenario() {
+		this.baseUrl = "https://www.ampeg.com/";
+		this.launchDriver();
+	}
+	
+	@After
+	public void afterScenario() {
+		this.driver.quit();
+	}
+	
+	private void launchDriver() {
+		var driverPath = "C:\\Users\\mitch\\Downloads\\chromedriver_win32 (1)\\chromedriver109.exe";
+		System.setProperty("webdriver.chrome.driver", driverPath);
 
+		driver = new ChromeDriver();
+		
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
+	}
+	
 	@Given("^I am on the home page$")
 	public void userOnHomePage() throws Throwable {
-		launchDriver();
+		driver.navigate().to(this.baseUrl);
 	}
 
 	@Given("I click on products link")
@@ -44,7 +81,6 @@ public class AmpegSteps extends AmpegTests{
 		String expectedPageTitle = "Frequently Asked Questions (FAQs)";
 
 		assertEquals(expectedPageTitle , pageTitle, "\"Frequently Asked Questions (FAQs)\" should be displayed as the title.");
-		Cleanup();
 	}
 
 	@Given("I click on product manuals link")
@@ -78,7 +114,6 @@ public class AmpegSteps extends AmpegTests{
 		var pdfContent = AutomatedTestCases.readPdfContent(pdfUrl);
 
 		Assert.assertTrue(pdfContent.contains(expectedContactInfo), "Contact info should be found in the V-4B English Quick Start Guide");
-		Cleanup();
 	}
 
 	@Given("I click on the artists link")
@@ -106,7 +141,6 @@ public class AmpegSteps extends AmpegTests{
 		var url = page.getUrl();
 
 		assertEquals(url, expectedUrl, "Classic cabs page should be displayed.");
-		Cleanup();
 	}
 
 	@When("I click classic bass heads and enclosures")
@@ -122,7 +156,6 @@ public class AmpegSteps extends AmpegTests{
 		var actualUrl = (page).getUrl();
 
 		assertEquals(actualUrl, expectedUrl, "We should be on classic page");
-		Cleanup();
 	}
 
 	@When("I click the accessories link")
@@ -146,6 +179,5 @@ public class AmpegSteps extends AmpegTests{
 		var accessories = ((ProductDetailPage) page).getClassicAccessories();
 
 		assertEquals(accessories, expectedAccessories, "Classic accessories should be displayed.");
-		Cleanup();
 	}
 }
